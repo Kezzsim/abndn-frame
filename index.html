@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head itemscope itemtype="https://schema.org/WebPage">
+    <title>abandoned.ai - Never say goodbye</title>
+    <!-- Link Card Preview metadata -->
+    <meta name="description" content="A 3D Digital archive of abandoned spaces made using machine learning." />
+    <meta itemprop="name" content="abandoned.ai | Never say goodbye" />
+    <meta itemprop="description"
+        content="A 3D Digital archive of abandoned spaces made using machine learning. Explorable in the browser or Virtual Reality clients." />
+    <meta itemprop="image" content="/images/previews/square.png" />
+    <link rel="alternate" type="application/json+oembed" href="https://abandoned.ai/oembed_link.json"
+        title="abandoned.ai" />
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://abandoned.ai/">
+    <meta property="og:title" content="abandoned.ai | Never say goodbye">
+    <meta property="og:description"
+        content="A 3D Digital archive of abandoned spaces made using machine learning. Explorable in the browser or Virtual Reality clients.">
+    <meta property="og:image" content="https://abandoned.ai/images/previews/square.png">
+
+    <!-- Performance and compatability metadata -->
+    <meta charset="utf-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <!-- TODO: convert to actual application-->
+    <!-- <link rel="manifest" href="/manifest.json"> -->
+
+    <!-- Actual application CDN code -->
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <script src="https://quadjr.github.io/aframe-gaussian-splatting/index.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nova+Square&family=Texturina:ital,opsz@0,12..72;1,12..72&display=swap');
+
+        body {
+            overflow: hidden;
+            margin: 0;
+            height: 100vh;
+            width: 100vw;
+            font-family: 'Texturina', serif;
+            background: black;
+            text-shadow: 0 0 3px black;
+        }
+
+        a,
+        body {
+            color: white;
+        }
+
+        #info {
+            z-index: 100;
+            position: absolute;
+            top: 10px;
+            left: 15px;
+        }
+
+        h3 {
+            margin: 5px 0;
+        }
+
+        h1 {
+            font-family: 'Nova Square', sans-serif;
+        }
+
+        p {
+            margin: 5px 0;
+            font-size: small;
+        }
+
+        details {
+            font-size: small;
+
+        }
+
+        #progress {
+            position: absolute;
+            top: 0;
+            height: 5px;
+            background: blue;
+            z-index: 99;
+            transition: width 0.1s ease-in-out;
+        }
+
+        #logo {
+            display: none;
+            filter: drop-shadow(0 0 6.75rem black) saturate(200%);
+            pointer-events: none;
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+        }
+
+        input {
+            width: 250px;
+            height: 40px;
+            line-height: 40px;
+            position: absolute;
+            bottom: 35px;
+            left: calc(50% - 125px);
+            background: none;
+            color: white;
+            font-size: 30px;
+            font-family: arial;
+            text-align: center;
+            border: 1px solid white;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        #instructions {
+            background: rgba(0, 0, 0, 0.6);
+            white-space: pre-wrap;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: x-small;
+        }
+
+        body.nohf .nohf {
+            display: none;
+        }
+
+        body.nohf #progress,
+        body.nohf .cube-face {
+            background: #ff9d0d;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        if (location.host.includes('hf.space')) document.body.classList.add('nohf');
+    </script>
+    <div id="info">
+        <canvas id="logo"></canvas>
+        <h1 class="nohf" id="copy">abandoned.ai</h1>
+        <h2 class="nohf">Never say goodbye</h2>
+        <p>For more information, visit <a href="https://abandoned.zone/">abandoned.zone</a></p>
+    </div>
+    <a-scene renderer="antialias: false" stats>
+        <a-entity position="0 1.6 -2.0"
+            animation="property: rotation; to: 0 360 0; dur: 10000; easing: linear; loop: true">
+        </a-entity>
+        <a-entity gaussian_splatting="src: https://aband.in/building7_floor3_examroom_kppc.splat;"
+            rotation="0 0 0" position="0 1.5 -2"></a-entity>
+    </a-scene>
+    <!-- Only load the fancy title animation on desktop please -->
+    <!-- Locate and load decimated splat from CDN on mobile  -->
+    <script>
+        if (navigator.maxTouchPoints === 0) {
+            var logoCanvas = document.getElementById("logo");
+            logoCanvas.style.display = "block";
+            document.write('<script src="./title_animation.js"><\/script>');
+        }
+    </script>
+
+</body>
+
+</html>
