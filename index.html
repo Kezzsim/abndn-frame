@@ -29,8 +29,9 @@
     <!-- <link rel="manifest" href="/manifest.json"> -->
 
     <!-- Actual application CDN code -->
-    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
     <script src="https://quadjr.github.io/aframe-gaussian-splatting/index.js"></script>
+    <script src="https://unpkg.com/aframe-orbit-controls@1.3.2/dist/aframe-orbit-controls.min.js"></script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Nova+Square&family=Texturina:ital,opsz@0,12..72;1,12..72&display=swap');
@@ -139,8 +140,9 @@
         <p>For more information, visit <a href="https://abandoned.zone/">abandoned.zone</a></p>
     </div>
     <a-scene renderer="antialias: false" stats>
-        <a-entity gaussian_splatting="src: https://aband.in/building7_floor3_examroom_kppc.splat;"
-            rotation="115 10 0" position="0 1.4 -0.6"></a-entity>
+        <a-entity gaussian_splatting="src: ./building7_floor3_examroom_kppc.splat;"
+        rotation="95 15 0" position="0 1.4 -0.4"></a-entity>
+        <a-entity camera look-controls="enabled: false" orbit-controls="target: 0.15 1.48 -0.38; minDistance: 0.3; maxDistance: 1; initialPosition: 0.15 1.48 -0.38; rotateSpeed: 0.5; autoRotate: true; autoRotateSpeed: 0.5"></a-entity>
     </a-scene>
     <!-- Only load the fancy title animation on desktop please -->
     <!-- Locate and load decimated splat from CDN on mobile  -->
