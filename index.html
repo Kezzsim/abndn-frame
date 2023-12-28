@@ -139,10 +139,10 @@
         <h2 class="nohf">Never say goodbye</h2>
         <p>For more information, visit <a href="https://abandoned.zone/">abandoned.zone</a></p>
     </div>
-    <a-scene renderer="antialias: false" stats>
-        <a-entity gaussian_splatting="src: ./building7_floor3_examroom_kppc.splat;"
-        rotation="95 15 0" position="0 1.4 -0.4"></a-entity>
-        <a-entity camera look-controls="enabled: false" orbit-controls="target: 0.15 1.48 -0.38; minDistance: 0.3; maxDistance: 1; initialPosition: 0.15 1.48 -0.38; rotateSpeed: 0.5; autoRotate: true; autoRotateSpeed: 0.5"></a-entity>
+    <a-scene renderer="antialias: false">
+        <a-entity gaussian_splatting="src: https://aband.in/building7_floor3_examroom_kppc-full.splat;"
+        rotation="95 15 0" position="0 1.4 -0.4" xrPixelRatio="0.2"></a-entity>
+        <a-entity camera look-controls="enabled: false" orbit-controls="target: 0.15 1.48 -0.4; minDistance: 0.3; maxDistance: 1; initialPosition: 0.15 1.48 -0.38; rotateSpeed: 0.5; autoRotate: true; autoRotateSpeed: -0.5"></a-entity>
     </a-scene>
     <!-- Only load the fancy title animation on desktop please -->
     <!-- Locate and load decimated splat from CDN on mobile  -->
