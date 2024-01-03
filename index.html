@@ -141,9 +141,10 @@
         <h2 class="nohf">Never say goodbye</h2>
         <p>For more information, visit <a href="https://abandoned.zone/">abandoned.zone</a></p>
     </div>
-    <a-scene renderer="antialias: false">
-        <a-entity gaussian_splatting="src: https://aband.in/building7_floor3_examroom_kppc-full.splat;"
-            rotation="95 15 0" position="0 1.4 -0.4" xrPixelRatio="0.2"></a-entity>
+    <!-- We use orbit controls so there is no need for device orientation permissions on mobile -->
+    <a-scene device-orientation-permission-ui="enabled: false" renderer="antialias: false">
+        <a-entity id="gs" gaussian_splatting="src: https://aband.in/building7_floor3_examroom_kppc-full.splat;"
+            rotation="95 15 0" position="0 1.4 -0.4" xrPixelRatio="0.5"></a-entity>
         <a-entity camera look-controls="enabled: false"
             orbit-controls="target: 0.15 1.48 -0.4; minDistance: 0.3; maxDistance: 1; initialPosition: 0.15 1.48 -0.38; rotateSpeed: 0.5; autoRotate: true; autoRotateSpeed: -0.5"></a-entity>
     </a-scene>
@@ -154,6 +155,10 @@
             var logoCanvas = document.getElementById("logo");
             logoCanvas.style.display = "block";
             document.write('<script src="./title_animation.js"><\/script>');
+        }
+        else {
+            var g_splat = document.getElementById("gs");
+            g_splat.setAttribute("gaussian_splatting", "src: https://aband.in/building7_floor3_examroom_kppc-compressed.splat;");
         }
     </script>
 
