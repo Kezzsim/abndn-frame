@@ -138,6 +138,8 @@
         <h1 class="nohf" id="copy">abandoned.ai</h1>
         <h2 class="nohf">Never say goodbye</h2>
         <p>For more information, visit <a href="https://abandoned.zone/">abandoned.zone</a></p>
+        <hr>
+        <p>Current space: (reload to change)</p>
     </div>
     <!-- We use orbit controls so there is no need for device orientation permissions on mobile -->
     <a-scene device-orientation-permission-ui="enabled: false" renderer="antialias: false">
@@ -146,13 +148,14 @@
             orbit-controls=""></a-entity>
     </a-scene>
     <script>
-        let dev = false;
+        let dev = true;
         // Embed a JSON of multiple splats
         let directory = [
             {
                 "name": "Examination Room 2",
                 "building": "7",
                 "floor": "3",
+                "site": "Kings Park Psychiatric Center",
                 "files": {
                     "high_res": {
                         "local_dev_uri": "./local_symlinks/building7_floor3_examroom_kppc-full.splat",
@@ -174,6 +177,7 @@
                 "name": "Radiology Waiting Room",
                 "building": "7",
                 "floor": "4",
+                "site": "Kings Park Psychiatric Center",
                 "files": {
                     "high_res": {
                         "local_dev_uri": "./local_symlinks/building7_floor4_radiologyWaiting_kppc-full.splat",
@@ -194,6 +198,11 @@
         ]
         // Select a splat at random for the client to load
         let splat = directory[Math.floor(Math.random() * directory.length)];
+        // Give the user information about the splat being loaded:
+        var information_panel = document.getElementById("info");
+        info.appendChild(document.createElement("h3")).innerText = splat.name;
+        info.appendChild(document.createElement("h3")).innerText = "Building " + splat.building + " | Floor " + splat.floor;
+        info.appendChild(document.createElement("p")).innerText = splat.site;
         // Setup universal properties
         var g_splat = document.getElementById("gs");
         var o_controls = document.getElementById("os");
