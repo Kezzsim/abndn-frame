@@ -127,8 +127,6 @@
         }
     </style>
 
-    <!-- Analytics -->
-    <script defer data-domain="abandoned.ai" src="https://plausible.io/js/script.js"></script>
 </head>
 
 <body>
@@ -140,25 +138,89 @@
         <h1 class="nohf" id="copy">abandoned.ai</h1>
         <h2 class="nohf">Never say goodbye</h2>
         <p>For more information, visit <a href="https://abandoned.zone/">abandoned.zone</a></p>
+        <hr>
+        <p>Current space: (reload to change)</p>
     </div>
     <!-- We use orbit controls so there is no need for device orientation permissions on mobile -->
     <a-scene device-orientation-permission-ui="enabled: false" renderer="antialias: false">
-        <a-entity id="gs" gaussian_splatting="src: https://aband.in/building7_floor3_examroom_kppc-full.splat;"
-            rotation="95 15 0" position="0 1.4 -0.4" xrPixelRatio="0.5"></a-entity>
-        <a-entity camera look-controls="enabled: false"
-            orbit-controls="target: 0.15 1.48 -0.4; minDistance: 0.3; maxDistance: 1; initialPosition: 0.15 1.48 -0.38; rotateSpeed: 0.5; autoRotate: true; autoRotateSpeed: -0.5"></a-entity>
+        <a-entity id="gs" gaussian_splatting="" rotation="" position="" xrPixelRatio=""></a-entity>
+        <a-entity id="os" camera look-controls="enabled: false"
+            orbit-controls=""></a-entity>
     </a-scene>
-    <!-- Only load the fancy title animation on desktop please -->
-    <!-- Locate and load decimated splat from CDN on mobile  -->
     <script>
+        let dev = false;
+        // Embed a JSON of multiple splats
+        let directory = [
+            {
+                "name": "Examination Room 2",
+                "building": "7",
+                "floor": "3",
+                "site": "Kings Park Psychiatric Center",
+                "files": {
+                    "high_res": {
+                        "local_dev_uri": "./local_symlinks/building7_floor3_examroom_kppc-full.splat",
+                        "cdn_url": "https://aband.in/building7_floor3_examroom_kppc-full.splat"
+                    },
+                    "low_res": {
+                        "local_dev_uri": "./local_symlinks/building7_floor3_examroom_kppc-compressed.splat",
+                        "cdn_url": "https://aband.in/building7_floor3_examroom_kppc-compressed.splat"
+                    }
+                },
+                "a_frame_gaussian_splatting": {
+                    "rotation": "95 15 0",
+                    "position": "0 1.4 -0.4",
+                    "xrPixelRatio": "0.5"
+                },
+                "a_frame_orbit_controls": "target: 0.15 1.48 -0.4; minDistance: 0.3; maxDistance: 0.9; initialPosition: 0.15 1.48 -0.38; rotateSpeed: 0.5; autoRotate: true; autoRotateSpeed: -0.5"
+            },
+            {
+                "name": "Radiology Waiting Room",
+                "building": "7",
+                "floor": "4",
+                "site": "Kings Park Psychiatric Center",
+                "files": {
+                    "high_res": {
+                        "local_dev_uri": "./local_symlinks/building7_floor4_radiologyWaiting_kppc-full.splat",
+                        "cdn_url": "https://aband.in/building7_floor4_radiologyWaiting_kppc-full.splat"
+                    },
+                    "low_res": {
+                        "local_dev_uri": "./local_symlinks/building7_floor4_radiologyWaiting_kppc-compressed.splat",
+                        "cdn_url": "https://aband.in/building7_floor4_radiologyWaiting_kppc-compressed.splat"
+                    }
+                },
+                "a_frame_gaussian_splatting": {
+                    "rotation": "0 0 0",
+                    "position": "1 0.6 -1.1",
+                    "xrPixelRatio": "0.5"
+                },
+                "a_frame_orbit_controls": "target: -0.5 1.5 -0.1; minDistance: 0.3; maxDistance: 1.4; initialPosition: 0.15 1.48 -0.38; rotateSpeed: 0.5; autoRotate: true; autoRotateSpeed: -0.5"
+            }
+        ]
+        // Select a splat at random for the client to load
+        let splat = directory[Math.floor(Math.random() * directory.length)];
+        // Give the user information about the splat being loaded:
+        var information_panel = document.getElementById("info");
+        info.appendChild(document.createElement("h3")).innerText = splat.name;
+        info.appendChild(document.createElement("h3")).innerText = "Building " + splat.building + " | Floor " + splat.floor;
+        info.appendChild(document.createElement("p")).innerText = splat.site;
+        // Setup universal properties
+        var g_splat = document.getElementById("gs");
+        var o_controls = document.getElementById("os");
+        g_splat.setAttribute("rotation", splat.a_frame_gaussian_splatting.rotation);
+        g_splat.setAttribute("position", splat.a_frame_gaussian_splatting.position);
+        g_splat.setAttribute("xrPixelRatio", splat.a_frame_gaussian_splatting.xrPixelRatio);
+        o_controls.setAttribute("orbit-controls", splat.a_frame_orbit_controls);
         if (navigator.maxTouchPoints === 0) {
+            // Load higher rez splat on desktop
+            g_splat.setAttribute("gaussian_splatting", "src: " + (dev ? splat.files.high_res.local_dev_uri : splat.files.high_res.cdn_url) + ";");
+            // Only load the fancy title animation on desktop please
             var logoCanvas = document.getElementById("logo");
             logoCanvas.style.display = "block";
             document.write('<script src="./title_animation.js"><\/script>');
         }
         else {
-            var g_splat = document.getElementById("gs");
-            g_splat.setAttribute("gaussian_splatting", "src: https://aband.in/building7_floor3_examroom_kppc-compressed.splat;");
+            // Locate and load decimated splat on mobile
+            g_splat.setAttribute("gaussian_splatting", "src: " + (dev ? splat.files.low_res.local_dev_uri : splat.files.low_res.cdn_url) + ";");
         }
     </script>
 
