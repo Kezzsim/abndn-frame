@@ -139,16 +139,16 @@
         <h2 class="nohf">Never say goodbye</h2>
         <p>For more information, visit <a href="https://abandoned.zone/">abandoned.zone</a></p>
         <hr>
-        <p>Current space: (reload to change)</p>
+        <p><strong>Current space:</strong> <em>(reload to change)</em></p>
     </div>
     <!-- We use orbit controls so there is no need for device orientation permissions on mobile -->
     <a-scene device-orientation-permission-ui="enabled: false" renderer="antialias: false">
         <a-entity id="gs" gaussian_splatting="" rotation="" position="" xrPixelRatio=""></a-entity>
-        <a-entity id="os" camera look-controls="enabled: false"
-            orbit-controls=""></a-entity>
+        <a-entity id="os" camera look-controls="enabled: false" orbit-controls=""></a-entity>
     </a-scene>
     <script>
-        let dev = false;
+        let dev = true;
+
         // Embed a JSON of multiple splats
         let directory = [
             {
@@ -196,12 +196,17 @@
                 "a_frame_orbit_controls": "target: -0.5 1.5 -0.1; minDistance: 0.3; maxDistance: 1.4; initialPosition: 0.15 1.48 -0.38; rotateSpeed: 0.5; autoRotate: true; autoRotateSpeed: -0.5"
             }
         ]
-        // Select a splat at random for the client to load
-        let splat = directory[Math.floor(Math.random() * directory.length)];
+
+        // Change the splat file each time on reload
+        let currentIndex = localStorage.getItem("currentIndex") || 0;
+        currentIndex = (parseInt(currentIndex) + 1) % directory.length;
+        localStorage.setItem("currentIndex", currentIndex);
+        let splat = directory[currentIndex];
+
         // Give the user information about the splat being loaded:
         var information_panel = document.getElementById("info");
-        info.appendChild(document.createElement("h3")).innerText = splat.name;
-        info.appendChild(document.createElement("h3")).innerText = "Building " + splat.building + " | Floor " + splat.floor;
+        info.appendChild(document.createElement("p")).innerText = splat.name;
+        info.appendChild(document.createElement("p")).innerText = "Building " + splat.building + " | Floor " + splat.floor;
         info.appendChild(document.createElement("p")).innerText = splat.site;
         // Setup universal properties
         var g_splat = document.getElementById("gs");
