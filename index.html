@@ -228,6 +228,31 @@
             g_splat.setAttribute("gaussian_splatting", "src: " + (dev ? splat.files.low_res.local_dev_uri : splat.files.low_res.cdn_url) + ";");
         }
     </script>
+    <!-- Script to monitor if the performance drops to remove superfluous elements (Title Animation) -->
+    <script>
+        var logoCanvas = document.getElementById("logo");
+        var startTime = null;
+        var frameCount = 0;
+
+        function monitorPerformance(timestamp) {
+            if (!startTime) startTime = timestamp;
+            var elapsedTime = timestamp - startTime;
+            frameCount++;
+
+            if (elapsedTime >= 5000) {
+                var averageFramerate = frameCount / (elapsedTime / 1000);
+                if (averageFramerate < 10) {
+                    logoCanvas.parentNode.removeChild(logoCanvas);
+                }
+                startTime = null;
+                frameCount = 0;
+            }
+
+            window.requestAnimationFrame(monitorPerformance);
+        }
+
+        window.requestAnimationFrame(monitorPerformance);
+    </script>
 
 </body>
 
